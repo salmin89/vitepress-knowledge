@@ -17,22 +17,22 @@ Generate knowledge files for AI models to use. This plugin works by looking at a
 ## Setup
 
 1. Extend the `knowledge` plugin:
-  ```ts
-  // docs/.vitepress/config.ts
-  import { defineConfig } from "vitepress";
-  import knowledge from 'vitepress-knowledge';
+   ```ts
+   // docs/.vitepress/config.ts
+   import { defineConfig } from "vitepress";
+   import knowledge from 'vitepress-knowledge';
 
-  export default defineConfig({
-    extends: knowledge()
-  })
-  ```
+   export default defineConfig({
+     extends: knowledge()
+   })
+   ```
 2. Build your site:
-  ```sh
-  $ bun vitepress build docs
-  ✓ building client + server bundles...
-  ✓ rendering pages...
-  ✓ generated docs/.vitepress/dist/knowledge.txt
-  ```
+   ```sh
+   $ bun vitepress build docs
+   ✓ building client + server bundles...
+   ✓ rendering pages...
+   ✓ generated docs/.vitepress/dist/knowledge.txt
+   ```
 
 And that's it! Your knowledge file will be available at `https://example.com/knowledge.txt` when publishing your docs. The knowledge file will not be generated during development.
 
