@@ -36,22 +36,22 @@ export default {
 
 ```js [JS]
 export default {
-  data () {
+  data() {
     return {
-      msg: 'Highlighted!'
-    }
-  }
-}
+      msg: "Highlighted!",
+    };
+  },
+};
 ```
 
 ```ts [TS]
 export default {
-  data () {
+  data() {
     return {
-      msg: 'Highlighted!'
-    }
-  }
-}
+      msg: "Highlighted!",
+    };
+  },
+};
 ```
 
 :::

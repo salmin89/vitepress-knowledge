@@ -17,15 +17,17 @@ Generate knowledge files for AI models to use. This plugin works by looking at a
 ## Setup
 
 1. Extend the `knowledge` plugin:
+
    ```ts
    // docs/.vitepress/config.ts
    import { defineConfig } from "vitepress";
-   import knowledge from 'vitepress-knowledge';
+   import knowledge from "vitepress-knowledge";
 
    export default defineConfig({
-     extends: knowledge()
-   })
+     extends: knowledge(),
+   });
    ```
+
 2. Build your site:
    ```sh
    $ bun vitepress build docs
@@ -62,8 +64,8 @@ You can use the `extends` option to extend another theme.
 export default defineConfig({
   extends: knowledge({
     extends: someOtherTheme(),
-  })
-})
+  }),
+});
 ```
 
 Right now, the HTML to markdown conversion for custom containers may not look good for any theme other than the default one.
