@@ -136,32 +136,39 @@ export default function knowledge<ThemeConfig>(
 
     // Get HTML page contents as markdown
     transformHtml(code, id, ctx) {
-      const { document } = parseHTML(code);
+      try {
+        const { document } = parseHTML(code);
 
-      const selector =
-        options?.pageSelectors?.[ctx.page] ??
-        options?.layoutSelectors?.[ctx.pageData.frontmatter.layout] ??
-        options?.selector ??
-        DEFAULT_LAYOUT_SELECTORS[
-          ctx.pageData.frontmatter.layout ?? "undefined"
-        ];
-      const root = document.querySelector(selector);
-      if (!root) {
-        warnings.push(`Root element (${selector}) not found on: ${ctx.page}`);
-        return;
+        const selector =
+          options?.pageSelectors?.[ctx.page] ??
+          options?.layoutSelectors?.[ctx.pageData.frontmatter.layout] ??
+          options?.selector ??
+          DEFAULT_LAYOUT_SELECTORS[
+            ctx.pageData.frontmatter.layout ?? "undefined"
+          ];
+        const root = document.querySelector(selector);
+        if (!root) {
+          warnings.push(`Root element (${selector}) not found on: ${ctx.page}`);
+          return;
+        }
+
+        const md = htmlToMd(root.innerHTML);
+        if (!md) {
+          warnings.push("Empty page:" + ctx.page);
+          return;
+        }
+
+        results.push({
+          ...ctx,
+          pathname: "/" + relativeNormalized(ctx.siteConfig.outDir, id),
+          md: htmlToMd(root.innerHTML),
+        });
+      } catch (err) {
+        warnings.push(
+          // @ts-expect-error: Unknown error type
+          `Failed to parse ${ctx.page}'s' HTML: ${err.message ?? String(err)}`,
+        );
       }
-
-      const md = htmlToMd(root.innerHTML);
-      if (!md) {
-        warnings.push("Empty page:" + ctx.page);
-        return;
-      }
-
-      results.push({
-        ...ctx,
-        pathname: "/" + relativeNormalized(ctx.siteConfig.outDir, id),
-        md: htmlToMd(root.innerHTML),
-      });
     },
 
     // Write results to knowledge.txt file
