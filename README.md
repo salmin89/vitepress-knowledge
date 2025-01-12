@@ -30,7 +30,7 @@ Generate knowledge files for AI models to use. This plugin works by looking at a
 
 2. Build your site:
    ```sh
-   $ bun vitepress build docs
+   $ vitepress build docs
    ✓ building client + server bundles...
    ✓ rendering pages...
    ✓ generated docs/.vitepress/dist/knowledge.txt
