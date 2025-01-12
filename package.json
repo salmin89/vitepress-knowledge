@@ -41,12 +41,12 @@
   },
   "dependencies": {
     "linkedom": "^0.18.6",
+    "node-html-markdown": "^1.3.0",
     "yaml": "^2.7.0"
   },
   "devDependencies": {
     "@aklinker1/check": "^1.4.5",
     "@types/bun": "latest",
-    "node-html-markdown": "^1.3.0",
     "oxlint": "^0.15.5",
     "prettier": "^3.4.2",
     "publint": "^0.3.1",
