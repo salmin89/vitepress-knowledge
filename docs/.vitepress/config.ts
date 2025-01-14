@@ -4,11 +4,11 @@ import knowledge from "../../src/index";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "VitePress Knowledge",
-  description: "Generate knowledge files for GPT models",
+  description: "Generate knowledge files for LLMs",
   extends: knowledge({
-    selector: "main",
-    pageSelectors: {
-      "index.md": "body",
+    paths: {
+      "/": "docs",
+      "/api/": "api-reference",
     },
   }),
   themeConfig: {

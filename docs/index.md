@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "VitePress Knowledge"
-  text: "Generate knowledge files for GPT models"
+  text: "Generate knowledge files for LLMs"
   tagline: My great project tagline
   actions:
     - theme: brand

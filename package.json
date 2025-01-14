@@ -1,6 +1,6 @@
 {
   "name": "vitepress-knowledge",
-  "description": "VitePress plugin for generating AI knowledge files",
+  "description": "VitePress plugin for generating AI knowledge files for LLMs",
   "version": "0.1.2",
   "license": "MIT",
   "repository": {
@@ -12,6 +12,7 @@
     "vitepress-plugin",
     "ai",
     "gpt",
+    "llm",
     "openai",
     "chat"
   ],
