@@ -184,7 +184,7 @@ export default function knowledge<ThemeConfig>(
       } catch (err) {
         warnings.push(
           // @ts-expect-error: Unknown error type
-          `\x1b[36m${ctx.page}\x1b[0m Failed to parse HTML (${err.message ?? String(err)})`,
+          `\x1b[36m${ctx.page}\x1b[0m Failed to parse: (${err.message ?? String(err)})`,
         );
       }
     },
