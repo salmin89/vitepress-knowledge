@@ -55,7 +55,7 @@ function renderKnowledgeContext(ctx: KnowledgeContext): string {
 
 function printFileWriteSuccess(file: string) {
   console.log(
-    `${pc.yellow("✓")} ${pc.dim("[knowledge]")} generated ${pc.cyan(relative(process.cwd(), file))}`,
+    `${pc.green("✓")} ${pc.dim("[knowledge]")} generated ${pc.cyan(relative(process.cwd(), file))}`,
   );
 }
 
