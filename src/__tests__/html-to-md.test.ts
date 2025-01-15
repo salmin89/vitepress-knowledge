@@ -118,5 +118,46 @@ paragraph 2
     });
   });
 
-  describe.todo("Code Groups");
+  describe("Code Groups", () => {
+    it("should convert code groups", () => {
+      const htmlToMd = createHtmlToMdConverter();
+      const input = `
+        <div class="vp-code-group vp-adaptive-theme">
+            <div class="tabs">
+                <input type="radio" name="group-5jDsp" id="tab-vGUfaVR" checked="" />
+                <label data-title="PNPM" for="tab-vGUfaVR">PNPM</label>
+                <input type="radio" name="group-5jDsp" id="tab-4-DoEZ3" />
+                <label data-title="Bun" for="tab-4-DoEZ3">Bun</label>
+            </div>
+            <div class="blocks">
+                <div class="language-sh vp-adaptive-theme active">
+                    <button title="Copy Code" class="copy"></button>
+                    <span class="lang">sh</span>
+                    <pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code>pnpm dlx wxt@latest init</code></pre>
+                </div>
+                <div class="language-sh vp-adaptive-theme">
+                    <button title="Copy Code" class="copy"></button>
+                    <span class="lang">sh</span>
+                    <pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code>bunx wxt@latest init</code></pre>
+                </div>
+            </div>
+        </div>
+      `;
+      const expected = `:::code-group
+
+\`\`\`sh [PNPM]
+pnpm dlx wxt@latest init
+\`\`\`
+
+\`\`\`sh [Bun]
+bunx wxt@latest init
+\`\`\`
+
+:::`;
+
+      const actual = htmlToMd(input);
+
+      expect(actual).toBe(expected);
+    });
+  });
 });

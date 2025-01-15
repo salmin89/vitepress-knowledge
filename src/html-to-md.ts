@@ -48,28 +48,25 @@ export function createHtmlToMdConverter() {
   ): string | undefined => {
     if (!ctx.node.classList.contains("vp-code-group")) return undefined;
 
-    const tabs = ctx.node.firstChild!;
-    const blocks = ctx.node.lastChild!;
+    const tabNodes = ctx.node.querySelectorAll(".tabs > label");
+    const blockNodes = ctx.node.querySelectorAll(".blocks > div");
 
-    const titles: string[] = [];
-    tabs.childNodes.forEach((child) => {
-      // @ts-expect-error: Not checking node type
-      const text = htmlToMd(child.outerHTML);
-      if (text) titles.push(text);
-    });
+    const titles: Array<string | null> = [];
+    tabNodes.forEach((tab) => titles.push(tab.textContent));
 
     const codeBlocks: string[] = [];
-    blocks.childNodes.forEach((child) => {
-      // @ts-expect-error: Not checking node type
-      codeBlocks.push(htmlToMd(child.outerHTML));
-    });
+    blockNodes.forEach((child) => codeBlocks.push(htmlToMd(child.outerHTML)));
 
-    return codeBlocks
-      .map((block, i) => {
-        if (titles[i]) return `${titles[i]}:\n${block}\n`;
-        return block + "\n";
-      })
-      .join("\n");
+    return (
+      ":::code-group\n\n" +
+      codeBlocks
+        .map((block, i) => {
+          if (titles[i]) return block.replace("\n", ` [${titles[i]}]\n`) + "\n";
+          return block + "\n";
+        })
+        .join("\n") +
+      "\n:::"
+    );
   };
 
   const nhm = new NodeHtmlMarkdown(
