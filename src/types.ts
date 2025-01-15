@@ -1,4 +1,4 @@
-import type { TransformContext, UserConfig } from "vitepress";
+import type { UserConfig } from "vitepress";
 
 export interface KnowledgeOptions<ThemeConfig> {
   /** Standard Vitepress `extends` to extend another config */
