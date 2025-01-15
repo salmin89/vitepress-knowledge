@@ -107,7 +107,7 @@ export default function knowledge<ThemeConfig>(
           `${pc.yellow("‼")} ${pc.dim("[knowledge]")} Warnings: ${warnings.length}`,
         );
         warnings.forEach((warning) => {
-          console.warn(`  ${pc.dim("-")} ${warning}`);
+          console.warn(`  ${pc.dim("-")}`, ...warning);
         });
       }
     },
