@@ -90,7 +90,6 @@ export default function knowledge<ThemeConfig>(
       const knowledgeDir = join(siteConfig.outDir, ".wellknown/knowledge");
 
       const pageOrderMap = getPageOrder(siteConfig);
-      console.debug(pageOrderMap);
       results.sort((a, b) => {
         const aOrder = pageOrderMap[a.page] ?? Number.MAX_SAFE_INTEGER;
         const bOrder = pageOrderMap[b.page] ?? Number.MAX_SAFE_INTEGER;
