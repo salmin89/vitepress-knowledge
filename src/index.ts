@@ -1,5 +1,5 @@
 import { Window } from "happy-dom";
-import type { UserConfig } from "vitepress";
+import type { SiteConfig, UserConfig } from "vitepress";
 import { join } from "node:path";
 import { relative as relativeNormalized } from "node:path/posix";
 import { writeIndexJson, writeKnowledgeFile } from "./rendering";
@@ -89,6 +89,17 @@ export default function knowledge<ThemeConfig>(
     async buildEnd(siteConfig) {
       const knowledgeDir = join(siteConfig.outDir, ".wellknown/knowledge");
 
+      const pageOrderMap = getPageOrder(siteConfig);
+      console.debug(pageOrderMap);
+      results.sort((a, b) => {
+        const aOrder = pageOrderMap[a.page] ?? Number.MAX_SAFE_INTEGER;
+        const bOrder = pageOrderMap[b.page] ?? Number.MAX_SAFE_INTEGER;
+        const orderDiff = aOrder - bOrder;
+        if (orderDiff !== 0) return orderDiff;
+
+        return a.page.localeCompare(b.page);
+      });
+
       const groups = groupPaths(options?.paths, results);
       for (const [groupName, files] of Object.entries(groups)) {
         await writeKnowledgeFile(knowledgeDir, groupName, files);
@@ -130,4 +141,44 @@ function groupPaths(
   }
 
   return groups;
+}
+
+type PageOrderMap = Record<string, number | undefined>;
+export function getPageOrder(siteConfig: SiteConfig): PageOrderMap {
+  const pageOrderMap: PageOrderMap = {};
+
+  function traverseItems(items: any[], prefix: string = ""): string[] {
+    const paths: string[] = [];
+    for (const item of items) {
+      if (typeof item === "string") {
+        paths.push(prefix + item);
+      } else if (item.link) {
+        paths.push(prefix + item.link);
+      }
+      if (item.items) {
+        paths.push(...traverseItems(item.items, prefix));
+      }
+    }
+    return paths;
+  }
+
+  // const navPaths = traverseItems((siteConfig.site as any)?.themeConfig?.nav ?? []);
+  const sidebarPaths = traverseItems(
+    (siteConfig.site as any)?.themeConfig?.sidebar ?? [],
+  );
+  const allPaths = [
+    // Homepage first
+    "index.md",
+    // Then use the sidebar for order
+    ...sidebarPaths,
+    // ...navPaths,
+  ]
+    .map((path) => (path.endsWith(".md") ? path : path + ".md"))
+    .map((path) => (path.startsWith("/") ? path.substring(1) : path));
+
+  allPaths.forEach((path, index) => {
+    pageOrderMap[path] = index;
+  });
+
+  return pageOrderMap;
 }
