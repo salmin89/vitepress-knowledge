@@ -3,6 +3,7 @@ import { relative as relativeNormalized } from "node:path/posix";
 import { writeFile, mkdir } from "node:fs/promises";
 import YAML from "yaml";
 import type { KnowledgeContext } from "./types";
+import pc from "picocolors";
 
 export async function writeIndexJson(
   outDir: string,
@@ -57,7 +58,7 @@ function renderKnowledgeContext(ctx: KnowledgeContext): string {
 
 function printFileWriteSuccess(file: string) {
   console.log(
-    `\x1b[32m✓\x1b[0m \x1b[2m[knowledge]\x1b[0m generated \x1b[36m${relative(process.cwd(), file)}\x1b[0m`,
+    `${pc.yellow("✓")} ${pc.dim("[knowledge]")} generated ${pc.cyan(relative(process.cwd(), file))}`,
   );
 }
 

@@ -1,9 +1,10 @@
-import { parseHTML } from "linkedom";
+import { Window } from "happy-dom";
 import type { TransformContext, UserConfig } from "vitepress";
 import { join } from "node:path";
 import { relative as relativeNormalized } from "node:path/posix";
 import { writeIndexJson, writeKnowledgeFile } from "./rendering";
 import { createHtmlToMdConverter } from "./html-to-md";
+import pc from "picocolors";
 
 export interface KnowledgeOptions<ThemeConfig> {
   /** Standard Vitepress `extends` to extend another config */
@@ -45,7 +46,8 @@ export default function knowledge<ThemeConfig>(
     // Get HTML page contents as markdown
     transformHtml(code, id, ctx) {
       try {
-        const { document } = parseHTML(code);
+        const { document } = new Window();
+        document.documentElement.innerHTML = code;
 
         const selector =
           options?.pageSelectors?.[ctx.page] ??
@@ -57,7 +59,7 @@ export default function knowledge<ThemeConfig>(
         const root = document.querySelector(selector);
         if (!root) {
           warnings.push(
-            `\x1b[36m${ctx.page}\x1b[0m Selector "${selector}" did not match any elements`,
+            `${pc.cyan(ctx.page)} Selector "${selector}" did not match any elements`,
           );
           return;
         }
@@ -65,7 +67,7 @@ export default function knowledge<ThemeConfig>(
         const md = htmlToMd(root.innerHTML);
         if (!md) {
           warnings.push(
-            `\x1b[36m${ctx.page}\x1b[0m Empty page, no knowledge extracted`,
+            `${pc.cyan(ctx.page)} Empty page, no knowledge to extract`,
           );
           return;
         }
@@ -86,7 +88,7 @@ export default function knowledge<ThemeConfig>(
       } catch (err) {
         warnings.push(
           // @ts-expect-error: Unknown error type
-          `\x1b[36m${ctx.page}\x1b[0m Failed to parse: ${err.message ?? String(err)}`,
+          `${pc.cyan(ctx.page)} Failed to parse HTML: ${err.message ?? String(err)}`,
         );
       }
     },
@@ -103,10 +105,10 @@ export default function knowledge<ThemeConfig>(
 
       if (warnings.length > 0) {
         console.warn(
-          `\x1b[93m‼\x1b[0m \x1b[2m[knowledge]\x1b[0m Warnings: ${warnings.length}`,
+          `${pc.yellow("‼")} ${pc.dim("[knowledge]")} Warnings: ${warnings.length}`,
         );
         warnings.forEach((warning) => {
-          console.warn(`  \x1b[2m-\x1b[0m ${warning}`);
+          console.warn(`  ${pc.dim("-")} ${warning}`);
         });
       }
     },
