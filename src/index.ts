@@ -55,7 +55,8 @@ export default function knowledge<ThemeConfig>(
           options?.selector ??
           DEFAULT_LAYOUT_SELECTORS[
             ctx.pageData.frontmatter.layout ?? "undefined"
-          ];
+          ] ??
+          "body";
         const root = document.querySelector(selector);
         if (!root) {
           warnings.push([
