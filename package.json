@@ -34,7 +34,7 @@
   ],
   "scripts": {
     "check": "bun run build && check",
-    "build": "bun build src/index.ts --no-bundle --sourcemap=inline --outfile=dist/index.js",
+    "build": "bun build src/index.ts --outfile=dist/index.js --target node --packages=external",
     "prepublishOnly": "bun run build",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
