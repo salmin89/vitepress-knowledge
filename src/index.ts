@@ -76,13 +76,13 @@ export default function knowledge<ThemeConfig>(
         }
 
         results.push({
-          mdFile: ctx.page,
+          sourceMdFile: ctx.page,
           pageTitle: ctx.pageData.title,
           pageDescription: ctx.pageData.description,
           siteTitle: ctx.siteData.title,
           siteDescription: ctx.siteData.description,
           pathname,
-          md: htmlToMd(root.innerHTML),
+          md,
         });
       } catch (err) {
         warnings.push([pc.cyan(ctx.page), `Failed to parse HTML:`, err]);
@@ -95,12 +95,12 @@ export default function knowledge<ThemeConfig>(
 
       const pageOrderMap = getPageOrder(siteConfig);
       results.sort((a, b) => {
-        const aOrder = pageOrderMap[a.mdFile] ?? Number.MAX_SAFE_INTEGER;
-        const bOrder = pageOrderMap[b.mdFile] ?? Number.MAX_SAFE_INTEGER;
+        const aOrder = pageOrderMap[a.sourceMdFile] ?? Number.MAX_SAFE_INTEGER;
+        const bOrder = pageOrderMap[b.sourceMdFile] ?? Number.MAX_SAFE_INTEGER;
         const orderDiff = aOrder - bOrder;
         if (orderDiff !== 0) return orderDiff;
 
-        return a.mdFile.localeCompare(b.mdFile);
+        return a.sourceMdFile.localeCompare(b.sourceMdFile);
       });
 
       const groups = groupPaths(options?.paths, results);

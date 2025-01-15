@@ -22,7 +22,7 @@ export interface KnowledgeOptions<ThemeConfig> {
 }
 
 export type KnowledgeContext = {
-  mdFile: string;
+  sourceMdFile: string;
   pageTitle: string;
   pageDescription: string;
   siteTitle: string;
