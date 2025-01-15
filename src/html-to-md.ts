@@ -20,9 +20,7 @@ export function createHtmlToMdConverter() {
     const children: string[] = [];
     ctx.node
       .querySelectorAll(":scope > *:not(.custom-block-title, summary)")
-      .forEach((child, i) => {
-        children.push(child.outerHTML);
-      });
+      .forEach((child) => void children.push(child.outerHTML));
     const content = htmlToMd(children.join("\n"));
 
     const isCustomTitle = title?.toLowerCase() !== type.toLowerCase();
