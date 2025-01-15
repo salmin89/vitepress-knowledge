@@ -32,7 +32,7 @@ export default function knowledge<ThemeConfig>(
 ): UserConfig<ThemeConfig>["extends"] {
   const htmlToMd = createHtmlToMdConverter();
   const results: KnowledgeContext[] = [];
-  const warnings: string[] = [];
+  const warnings: any[][] = [];
 
   const DEFAULT_LAYOUT_SELECTORS: Record<string, string> = {
     undefined: "main",
@@ -58,17 +58,19 @@ export default function knowledge<ThemeConfig>(
           ];
         const root = document.querySelector(selector);
         if (!root) {
-          warnings.push(
-            `${pc.cyan(ctx.page)} Selector "${selector}" did not match any elements`,
-          );
+          warnings.push([
+            pc.cyan(ctx.page),
+            `Selector "${selector}" did not match any elements`,
+          ]);
           return;
         }
 
         const md = htmlToMd(root.innerHTML);
         if (!md) {
-          warnings.push(
-            `${pc.cyan(ctx.page)} Empty page, no knowledge to extract`,
-          );
+          warnings.push([
+            pc.cyan(ctx.page),
+            `Empty page, no knowledge to extract`,
+          ]);
           return;
         }
 
@@ -86,10 +88,7 @@ export default function knowledge<ThemeConfig>(
           md: htmlToMd(root.innerHTML),
         });
       } catch (err) {
-        warnings.push(
-          // @ts-expect-error: Unknown error type
-          `${pc.cyan(ctx.page)} Failed to parse HTML: ${err.message ?? String(err)}`,
-        );
+        warnings.push([pc.cyan(ctx.page), `Failed to parse HTML:`, err]);
       }
     },
 
