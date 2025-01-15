@@ -11,8 +11,8 @@ Generate knowledge files for AI models to use. This plugin works by converting t
 - [x] Generate knowledge files
 - [x] Add tests for HTML &rarr; markdown conversion
 - [ ] Plugin system that allows for
-   - Generating more knowledge files based on other sources (discord, github, etc)
-   - Uploading knowledge files to to keep models up-to-date with your docs (OpenAI Assistants for example)
+  - Generating more knowledge files based on other sources (discord, github, etc)
+  - Uploading knowledge files to to keep models up-to-date with your docs (OpenAI Assistants for example)
 - [ ] Built-in chat UI
 
 ## Setup
@@ -30,6 +30,7 @@ Generate knowledge files for AI models to use. This plugin works by converting t
    ```
 
 2. Build your site:
+
    ```sh
    $ vitepress build docs
 
@@ -56,8 +57,8 @@ export default defineConfig({
     paths: {
       "/": "docs",
       "/api/": "api-reference",
-      "/blog/": "blog"
-    }
+      "/blog/": "blog",
+    },
   }),
 });
 ```
@@ -75,7 +76,7 @@ To prevent a markdown file from being added to the knowledge files, use the `ign
 ```ts
 export default defineConfig({
   extends: knowledge({
-    ignore: ["privacy-policy.md"]
+    ignore: ["privacy-policy.md"],
   }),
 });
 ```

@@ -76,7 +76,9 @@ export default function knowledge<ThemeConfig>(
         }
 
         results.push({
-          ...ctx,
+          page: ctx.page,
+          pageData: ctx.pageData,
+          siteData: ctx.siteData,
           pathname,
           md: htmlToMd(root.innerHTML),
         });

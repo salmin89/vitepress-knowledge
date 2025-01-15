@@ -21,7 +21,10 @@ export interface KnowledgeOptions<ThemeConfig> {
   pageSelectors?: Record<string, string>;
 }
 
-export type KnowledgeContext = TransformContext & {
+export type KnowledgeContext = Pick<
+  TransformContext,
+  "page" | "pageData" | "siteData"
+> & {
   md: string;
   pathname: string;
 };
