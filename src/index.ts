@@ -147,17 +147,21 @@ type PageOrderMap = Record<string, number | undefined>;
 export function getPageOrder(siteConfig: SiteConfig): PageOrderMap {
   const pageOrderMap: PageOrderMap = {};
 
-  function traverseItems(items: any[], prefix: string = ""): string[] {
+  function traverseItems(items: unknown, prefix: string = ""): string[] {
     const paths: string[] = [];
-    for (const item of items) {
-      if (typeof item === "string") {
-        paths.push(prefix + item);
-      } else if (item.link) {
-        paths.push(prefix + item.link);
-      }
-      if (item.items) {
-        paths.push(...traverseItems(item.items, prefix));
-      }
+    if (Array.isArray(items)) {
+      items.forEach((item) => {
+        if (typeof item === "string") {
+          paths.push(prefix + item);
+        } else if (item.link) {
+          paths.push(prefix + item.link);
+        }
+        if (item.items) {
+          paths.push(...traverseItems(item.items, prefix));
+        }
+      });
+    } else if (typeof items === "object" && items) {
+      paths.push(...traverseItems(Object.values(items)));
     }
     return paths;
   }
