@@ -45,6 +45,7 @@ export default function knowledge<ThemeConfig>(
   };
 
   const ignore = new Set(options?.ignore);
+  ignore.add("404.md");
 
   return {
     // Allow extending another theme/config
