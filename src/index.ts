@@ -151,17 +151,21 @@ export function getPageOrder(siteConfig: SiteConfig): PageOrderMap {
     const paths: string[] = [];
     if (Array.isArray(items)) {
       items.forEach((item) => {
-        if (typeof item === "string") {
-          paths.push(prefix + item);
-        } else if (item.link) {
-          paths.push(prefix + item.link);
+        const link = typeof item === "string" ? item : item.link;
+        if (link) {
+          if (link.startsWith("/")) paths.push(link);
+          else paths.push(prefix + link);
         }
+
         if (item.items) {
-          paths.push(...traverseItems(item.items, prefix));
+          const newPrefix = item.base?.startsWith("/")
+            ? item.base
+            : prefix + (item.base ?? "");
+          paths.push(...traverseItems(item.items, newPrefix));
         }
       });
     } else if (typeof items === "object" && items) {
-      paths.push(...traverseItems(Object.values(items)));
+      paths.push(...traverseItems(Object.values(items).flat()));
     }
     return paths;
   }
@@ -175,6 +179,7 @@ export function getPageOrder(siteConfig: SiteConfig): PageOrderMap {
     "index.md",
     // Then use the sidebar for order
     ...sidebarPaths,
+    // Maybe add navbar paths later?
     // ...navPaths,
   ]
     .map((path) => (path.endsWith(".md") ? path : path + ".md"))
