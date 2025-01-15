@@ -55,9 +55,14 @@ export default function knowledge<ThemeConfig>(
           options?.selector ??
           DEFAULT_LAYOUT_SELECTORS[
             ctx.pageData.frontmatter.layout ?? "undefined"
-          ] ??
-          "body";
-        const root = document.querySelector(selector);
+          ];
+        if (selector == null) {
+          warnings.push([
+            pc.cyan(ctx.page),
+            `No selector found, falling back to "body". You probably want to provide a custom selector for this page/layout to filter out navigation`,
+          ]);
+        }
+        const root = document.querySelector(selector ?? "body");
         if (!root) {
           warnings.push([
             pc.cyan(ctx.page),
