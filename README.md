@@ -32,9 +32,15 @@ Generate knowledge files for AI models to use. This plugin works by converting t
 2. Build your site:
    ```sh
    $ vitepress build docs
+
+     vitepress v1.5.0
+
    ✓ building client + server bundles...
    ✓ rendering pages...
-   ✓ generated docs/.vitepress/dist/knowledge.txt
+   ✓ [knowledge] generated docs/.vitepress/dist/.wellknown/knowledge/docs.txt
+   ✓ [knowledge] generated docs/.vitepress/dist/.wellknown/knowledge/api-reference.txt
+   ✓ [knowledge] generated docs/.vitepress/dist/.wellknown/knowledge/index.json
+   build complete in 2.57s.
    ```
 
 And that's it! Your knowledge files will be listed at `https://example.com/.wellknown/knowledge/index.json` on your production site. Knowledge files are not generated during development.
@@ -61,6 +67,7 @@ This will output the following files:
 
 - `.wellknown/knowledge/docs.txt`
 - `.wellknown/knowledge/api-reference.txt`
+- `.wellknown/knowledge/blog.txt`
 
 ### Ignoring Files
 
@@ -89,6 +96,8 @@ By default, this plugin only adds docs to the knowledge file, ignoring navigatio
 - `pageSelectors`: Specify which content should be added for a specific page
 - `layoutSelectors`: Specify which content should be added for a specific layout (if not specified in the `pageSelectors`)
 - `selector`: Specify which content should be added (if not specified in the `pageSelectors` or `layoutSelectors`)
+
+By default, standard layouts provided by the default theme have default selectors applied for you automatically.
 
 ### Extending Other Themes
 
