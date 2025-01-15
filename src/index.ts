@@ -14,6 +14,11 @@ export interface KnowledgeOptions<ThemeConfig> {
    * @default { "/": "docs" }
    */
   paths: Record<string, string>;
+  /**
+   * Markdown files to ignore. Note that the 404.md page is always ignored.
+   * @default: []
+   */
+  ignore: string[];
   /** Default selector to only process content from inside. */
   selector?: string;
   /** Customize the selector used for each page layout. */
@@ -39,12 +44,16 @@ export default function knowledge<ThemeConfig>(
     home: ".VPHome",
   };
 
+  const ignore = new Set(options?.ignore);
+
   return {
     // Allow extending another theme/config
     extends: options?.extends,
 
     // Get HTML page contents as markdown
     transformHtml(code, id, ctx) {
+      if (ignore.has(ctx.page)) return;
+
       try {
         const { document } = new Window();
         document.documentElement.innerHTML = code;
