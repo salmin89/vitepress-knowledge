@@ -38,7 +38,6 @@ Generate knowledge files for AI models to use. This plugin works by converting t
    ✓ building client + server bundles...
    ✓ rendering pages...
    ✓ [knowledge] generated docs/.vitepress/dist/.wellknown/knowledge/docs.txt
-   ✓ [knowledge] generated docs/.vitepress/dist/.wellknown/knowledge/api-reference.txt
    ✓ [knowledge] generated docs/.vitepress/dist/.wellknown/knowledge/index.json
    build complete in 2.57s.
    ```
