@@ -1,4 +1,5 @@
-import { Window } from "happy-dom";
+// import { Window } from "happy-dom";
+import { parseHTML } from "linkedom";
 import type { SiteConfig, UserConfig } from "vitepress";
 import { join } from "node:path";
 import { relative as relativeNormalized } from "node:path/posix";
@@ -33,8 +34,8 @@ export default function knowledge<ThemeConfig>(
       if (ignore.has(ctx.page)) return;
 
       try {
-        const { document } = new Window();
-        document.documentElement.innerHTML = code;
+        // const { document } = new Window();
+        const { document } = parseHTML(code);
 
         const selector =
           options?.pageSelectors?.[ctx.page] ??
