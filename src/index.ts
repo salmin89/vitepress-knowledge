@@ -76,9 +76,11 @@ export default function knowledge<ThemeConfig>(
         }
 
         results.push({
-          page: ctx.page,
-          pageData: ctx.pageData,
-          siteData: ctx.siteData,
+          mdFile: ctx.page,
+          pageTitle: ctx.pageData.title,
+          pageDescription: ctx.pageData.description,
+          siteTitle: ctx.siteData.title,
+          siteDescription: ctx.siteData.description,
           pathname,
           md: htmlToMd(root.innerHTML),
         });
@@ -93,12 +95,12 @@ export default function knowledge<ThemeConfig>(
 
       const pageOrderMap = getPageOrder(siteConfig);
       results.sort((a, b) => {
-        const aOrder = pageOrderMap[a.page] ?? Number.MAX_SAFE_INTEGER;
-        const bOrder = pageOrderMap[b.page] ?? Number.MAX_SAFE_INTEGER;
+        const aOrder = pageOrderMap[a.mdFile] ?? Number.MAX_SAFE_INTEGER;
+        const bOrder = pageOrderMap[b.mdFile] ?? Number.MAX_SAFE_INTEGER;
         const orderDiff = aOrder - bOrder;
         if (orderDiff !== 0) return orderDiff;
 
-        return a.page.localeCompare(b.page);
+        return a.mdFile.localeCompare(b.mdFile);
       });
 
       const groups = groupPaths(options?.paths, results);

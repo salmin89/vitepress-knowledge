@@ -43,14 +43,11 @@ function renderKnowledgeContext(ctx: KnowledgeContext): string {
   const frontmatter: Record<string, any> = {
     url: ctx.pathname,
   };
-  if (ctx.pageData.title !== ctx.siteData.title && ctx.pageData.title) {
-    frontmatter.title = ctx.pageData.title;
+  if (ctx.pageTitle !== ctx.siteTitle && ctx.pageTitle) {
+    frontmatter.title = ctx.pageTitle;
   }
-  if (
-    ctx.pageData.description !== ctx.siteData.description &&
-    ctx.pageData.description
-  ) {
-    frontmatter.description = ctx.pageData.description;
+  if (ctx.pageDescription !== ctx.siteDescription && ctx.pageDescription) {
+    frontmatter.description = ctx.pageDescription;
   }
 
   return `---\n${YAML.stringify(frontmatter).trim()}\n---\n\n${ctx.md.trim()}`;
