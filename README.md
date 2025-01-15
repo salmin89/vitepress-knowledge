@@ -38,12 +38,12 @@ Generate knowledge files for AI models to use. This plugin works by converting t
 
    ✓ building client + server bundles...
    ✓ rendering pages...
-   ✓ [knowledge] generated docs/.vitepress/dist/.wellknown/knowledge/docs.txt
-   ✓ [knowledge] generated docs/.vitepress/dist/.wellknown/knowledge/index.json
+   ✓ [knowledge] generated docs/.vitepress/dist/knowledge/docs.txt
+   ✓ [knowledge] generated docs/.vitepress/dist/knowledge/index.json
    build complete in 2.57s.
    ```
 
-And that's it! Your knowledge files will be listed at `https://example.com/.wellknown/knowledge/index.json` on your production site. Knowledge files are not generated during development.
+And that's it! Your knowledge files will be listed at `https://example.com/knowledge/index.json` on your production site. Knowledge files are not generated during development.
 
 ## Configuration
 
@@ -65,9 +65,9 @@ export default defineConfig({
 
 This will output the following files:
 
-- `.wellknown/knowledge/docs.txt`
-- `.wellknown/knowledge/api-reference.txt`
-- `.wellknown/knowledge/blog.txt`
+- `knowledge/docs.txt`
+- `knowledge/api-reference.txt`
+- `knowledge/blog.txt`
 
 ### Ignoring Files
 

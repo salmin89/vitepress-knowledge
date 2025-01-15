@@ -92,7 +92,7 @@ export default function knowledge<ThemeConfig>(
 
     // Write results to knowledge.txt file
     async buildEnd(siteConfig) {
-      const knowledgeDir = join(siteConfig.outDir, ".wellknown/knowledge");
+      const knowledgeDir = join(siteConfig.outDir, options?.dir ?? "knowledge");
 
       const pageOrderMap = getPageOrder(siteConfig);
       results.sort((a, b) => {
