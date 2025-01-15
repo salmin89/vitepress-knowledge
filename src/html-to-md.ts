@@ -12,18 +12,20 @@ export function createHtmlToMdConverter() {
         ctx.node.classList.contains(type),
       ) ?? "unknown";
 
-    // @ts-expect-error: Not checking node type
-    const title = htmlToMd(ctx.node.firstChild!.innerHTML ?? type);
+    const titleNode = ctx.node.querySelector(".custom-block-title, summary");
+    const title = titleNode?.textContent
+      ? htmlToMd(titleNode.textContent)
+      : undefined;
 
     const children: string[] = [];
-    ctx.node.childNodes.forEach((child, i) => {
-      if (i === 0) return;
-      // @ts-expect-error: Not checking node type
-      children.push(child.outerHTML);
-    });
+    ctx.node
+      .querySelectorAll(":scope > *:not(.custom-block-title, summary)")
+      .forEach((child, i) => {
+        children.push(child.outerHTML);
+      });
     const content = htmlToMd(children.join("\n"));
 
-    const isCustomTitle = title.toLowerCase() !== type.toLowerCase();
+    const isCustomTitle = title?.toLowerCase() !== type.toLowerCase();
 
     if (isCustomTitle) return `:::${type} ${title}\n${content}\n:::`;
     return `:::${type}\n${content}\n:::`;
@@ -34,9 +36,11 @@ export function createHtmlToMdConverter() {
   ): string | undefined => {
     if (!ctx.node.classList.toString().includes("language-")) return undefined;
 
-    const lang = ctx.node.childNodes[1].textContent;
-    // @ts-expect-error: Not checking node type
-    const content = htmlToMd(ctx.node.lastChild!.outerHTML);
+    const langNode = ctx.node.querySelector(".lang");
+    const lang = langNode?.textContent ?? "";
+
+    const contentNode = ctx.node.querySelector("pre");
+    const content = contentNode ? htmlToMd(contentNode.outerHTML) : "";
 
     return content.replace("```\n", `\`\`\`${lang}\n`);
   };
@@ -94,6 +98,7 @@ export function createHtmlToMdConverter() {
 
           return ctx.content;
         },
+        surroundingNewlines: true,
       },
     },
   );
