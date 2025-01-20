@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This was a fun little project, and it produces nice files, but I couldn't get the knowledge files to produce a inteligent assistant on OpenAI. So not sure if this is the right approach for this sort of model.
+
 # VitePress Knowledge
 
 ```sh
