@@ -255,7 +255,9 @@ consola.info(`  ${pc.dim("PORT=")}${pc.cyan(env.PORT)}`);
 consola.info(`  ${pc.dim("APP_NAME=")}${pc.cyan(env.APP_NAME)}`);
 consola.info(`  ${pc.dim("DOMAIN=")}${pc.cyan(env.DOMAIN)}`);
 consola.info(`  ${pc.dim("DOCS_URL=")}${pc.cyan(env.DOCS_URL)}`);
-consola.info(`  ${pc.dim("CORS_ORIGIN=")}${pc.cyan(env.CORS_ORIGIN)}`);
+consola.info(
+  `  ${pc.dim("CORS_ORIGIN=")}${pc.cyan(env.CORS_ORIGIN.join(","))}`,
+);
 consola.info(
   `  ${pc.dim("ASSISTANT_ICON_URL=")}${pc.cyan(env.ASSISTANT_ICON_URL)}`,
 );

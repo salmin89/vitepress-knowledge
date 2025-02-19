@@ -18,10 +18,15 @@ export const DOCS_URL = (process.env.DOCS_URL || "http://localhost:5173")
   // Trim trailing /
   .replace(/\/$/, "");
 export const CORS_ORIGIN = (process.env.CORS_ORIGIN || DOCS_URL)
-  // Remove protocol
-  .replace(/^.*:\/\//, "")
-  // Trim trailing /
-  .replace(/\/$/, "");
+  .split(",")
+  .map((origin) =>
+    origin
+      .trim()
+      // Remove protocol
+      .replace(/^.*:\/\//, "")
+      // Trim trailing /
+      .replace(/\/$/, ""),
+  );
 export const ASSISTANT_ICON_URL =
   process.env.ASSISTANT_ICON_URL?.trim() || "/favicon.ico";
 export const SYSTEM_PROMPT =
