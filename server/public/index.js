@@ -376,7 +376,7 @@ function chatWindow() {
       Powered by
       <a class="chat-link" href="${vitepressKnowledgeUrl}" target="_blank">vitepress-knowledge</a>
       &bull;
-      <a class="chat-link" href="{{ DOMAIN }}/privacy-policy" target="_blank">Privacy Policy</a>
+      <a class="chat-link" href="https://{{ DOMAIN }}/privacy-policy" target="_blank">Privacy Policy</a>
     </small>
     <div class="chat-message assistant">
       {{ WELCOME_MESSAGE }}
