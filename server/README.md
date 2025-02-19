@@ -20,7 +20,7 @@ The server is configured via environment variables.
 | `APP_NAME`           | `WXT`                                        | App name used throughout the UI                                                                                               |
 | `DOMAIN`             | `chat.wxt.dev`                               | Specify the domain the server will be hosted at.                                                                              |
 | `DOCS_URL`           | `https://wxt.dev`                            | URL to VitePress website. Must use the `vitepress-knowledge` plugin and host `/knowledge/*` files.                            |
-| `CORS_ORIGIN`        | `wxt.dev`                                    | Optional: Override the allowed origin for CORS. If omitted, will use `DOCS_URL` for CORS.                                     |
+| `CORS_ORIGIN`        | `https://wxt.dev`                            | Optional: Override the allowed origin for CORS. If omitted, will use `DOCS_URL` for CORS.                                     |
 | `ASSISTANT_ICON_URL` | `/logo.svg`                                  | Optional: Path or full URL to icon to use for the assistant's avatar in the chat. If missing, will default to `/favicon.ico`. |
 | `WELCOME_MESSAGE`    | `<p>Hi!</p><p>I'm an AI assistant...`        | Optional: HTML template for customizing the initial message shown before a user sends their first message.                    |
 | `SYSTEM_PROMPT`      | `You are an expert developer trained on ...` | Optional: Customize the system prompt                                                                                         |

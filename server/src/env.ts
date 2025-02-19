@@ -15,18 +15,14 @@ export const PORT = Number(process.env.PORT) || 5174;
 export const APP_NAME = process.env.APP_NAME?.trim() || "<APP_NAME>";
 export const DOMAIN = process.env.DOMAIN?.trim() || "<DOMAIN>";
 export const DOCS_URL = (process.env.DOCS_URL || "http://localhost:5173")
-  // Trim trailing /
+  // Remove trailing /
   .replace(/\/$/, "");
-export const CORS_ORIGIN = (process.env.CORS_ORIGIN || DOCS_URL)
-  .split(",")
-  .map((origin) =>
-    origin
-      .trim()
-      // Remove protocol
-      .replace(/^.*:\/\//, "")
-      // Trim trailing /
-      .replace(/\/$/, ""),
-  );
+export const CORS_ORIGIN = new Set(
+  (process.env.CORS_ORIGIN || DOCS_URL).split(",").map((origin) =>
+    // Trim and remove trailing /
+    origin.trim().replace(/\/$/, ""),
+  ),
+);
 export const ASSISTANT_ICON_URL =
   process.env.ASSISTANT_ICON_URL?.trim() || "/favicon.ico";
 export const SYSTEM_PROMPT =

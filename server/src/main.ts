@@ -67,7 +67,18 @@ let app = new Elysia()
       },
     }),
   )
-  .use(cors({ origin: env.CORS_ORIGIN }))
+  .use(
+    cors({
+      origin: (ctx) => {
+        const origin = ctx.headers.get("Origin") ?? "";
+        consola.log("CORS:", {
+          origin,
+          allowed: env.CORS_ORIGIN,
+        });
+        return env.CORS_ORIGIN.has(origin);
+      },
+    }),
+  )
   .onBeforeHandle(({ path, request }) => {
     consola.info(
       `${pc.cyan("[http]")} ${getRequestColor(request.method)(request.method)} ${path}`,
@@ -256,7 +267,7 @@ consola.info(`  ${pc.dim("APP_NAME=")}${pc.cyan(env.APP_NAME)}`);
 consola.info(`  ${pc.dim("DOMAIN=")}${pc.cyan(env.DOMAIN)}`);
 consola.info(`  ${pc.dim("DOCS_URL=")}${pc.cyan(env.DOCS_URL)}`);
 consola.info(
-  `  ${pc.dim("CORS_ORIGIN=")}${pc.cyan(env.CORS_ORIGIN.join(","))}`,
+  `  ${pc.dim("CORS_ORIGIN=")}${pc.cyan([...env.CORS_ORIGIN].join(","))}`,
 );
 consola.info(
   `  ${pc.dim("ASSISTANT_ICON_URL=")}${pc.cyan(env.ASSISTANT_ICON_URL)}`,
