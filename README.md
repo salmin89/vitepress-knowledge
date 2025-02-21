@@ -70,11 +70,10 @@ services:
       DOCS_URL: https://wxt.dev
       GOOGLE_API_KEY: your_google_api_key # Get an API key @ https://aistudio.google.com
       GEMINI_2_0_FLASH: true
-      # Be sure to escape any template variables so they aren't expanded as environment variables by docker
       SYSTEM_PROMPT: |
-        You are a documentation assistant for "\{\{ APP_NAME \}\}" (\{\{ DOMAIN \}\}). Answer any questions based off your training knowledge below:
+        You are a documentation assistant for "{{ APP_NAME }}" ({{ DOMAIN }}). Answer any questions based off your training knowledge below:
 
-        \{\{ KNOWLEDGE \}\}
+        {{ KNOWLEDGE }}
 ```
 
 ---
