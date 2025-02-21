@@ -356,7 +356,7 @@ function chatWindow() {
         }),
       });
       if (res.status === 200) {
-        messages = await res.jso();
+        messages = await res.json();
       } else {
         const text = await res.text();
         console.error("Failed to send message", res, text);
