@@ -51,7 +51,7 @@ const js = Bun.file("public/index.js")
       .replaceAll("{{ WELCOME_MESSAGE }}", env.WELCOME_MESSAGE)
       .replaceAll("{{ APP_NAME }}", env.APP_NAME)
       .replaceAll("{{ ASSISTANT_ICON_URL }}", env.ASSISTANT_ICON_URL)
-      .replaceAll("{{ DOMAIN }}", env.DOMAIN),
+      .replaceAll("{{ SERVER_URL }}", env.SERVER_URL),
   );
 const privacyPolicy = Bun.file("public/privacy-policy.md").text();
 
@@ -71,9 +71,10 @@ let app = new Elysia()
     cors({
       origin: (ctx) => {
         const origin = ctx.headers.get("Origin") ?? "";
-        consola.log("CORS:", {
+        consola.debug("CORS:", {
           origin,
           allowed: env.CORS_ORIGIN,
+          headers: ctx.headers.toJSON(),
         });
         return env.CORS_ORIGIN.has(origin);
       },
@@ -170,7 +171,8 @@ let app = new Elysia()
       const systemPrompt = env.SYSTEM_PROMPT
         // Prompt vars:
         .replaceAll("{{ APP_NAME }}", env.APP_NAME)
-        .replaceAll("{{ DOMAIN }}", env.DOMAIN)
+        .replaceAll("{{ SERVER_URL }}", env.SERVER_URL)
+        .replaceAll("{{ DOMAIN }}", new URL(env.SERVER_URL).host)
         .replaceAll("{{ KNOWLEDGE }}", knowledge.files.join("\n\n"));
 
       switch (auth.enum) {
@@ -264,7 +266,7 @@ let app = new Elysia()
 consola.info("Resolved Environment Variables");
 consola.info(`  ${pc.dim("PORT=")}${pc.cyan(env.PORT)}`);
 consola.info(`  ${pc.dim("APP_NAME=")}${pc.cyan(env.APP_NAME)}`);
-consola.info(`  ${pc.dim("DOMAIN=")}${pc.cyan(env.DOMAIN)}`);
+consola.info(`  ${pc.dim("SERVER_URL=")}${pc.cyan(env.SERVER_URL)}`);
 consola.info(`  ${pc.dim("DOCS_URL=")}${pc.cyan(env.DOCS_URL)}`);
 consola.info(
   `  ${pc.dim("CORS_ORIGIN=")}${pc.cyan([...env.CORS_ORIGIN].join(","))}`,

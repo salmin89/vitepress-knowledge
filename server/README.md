@@ -18,7 +18,7 @@ The server is configured via environment variables.
 | **Configuration**    |                                              |                                                                                                                               |
 | `PORT`               | `5174`                                       | The port for the server to listen on.                                                                                         |
 | `APP_NAME`           | `WXT`                                        | App name used throughout the UI                                                                                               |
-| `DOMAIN`             | `chat.wxt.dev`                               | Specify the domain the server will be hosted at.                                                                              |
+| `SERVER_URL`         | `chat.wxt.dev`                               | Specify the domain the server will be hosted at.                                                                              |
 | `DOCS_URL`           | `https://wxt.dev`                            | URL to VitePress website. Must use the `vitepress-knowledge` plugin and host `/knowledge/*` files.                            |
 | `CORS_ORIGIN`        | `https://wxt.dev`                            | Optional: Override the allowed origin for CORS. If omitted, will use `DOCS_URL` for CORS.                                     |
 | `ASSISTANT_ICON_URL` | `/logo.svg`                                  | Optional: Path or full URL to icon to use for the assistant's avatar in the chat. If missing, will default to `/favicon.ico`. |

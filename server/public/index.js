@@ -87,7 +87,7 @@ styles.innerHTML = `
 .chat-window-title-section > .title::after {
   font-weight: 600;
   font-size: 10px;
-  content: 'VERY ALPHA';
+  content: 'EARLY ALPHA';
   margin-left: 0.5rem;
   vertical-align: top;
   color: var(--vp-c-warning-1);
@@ -345,7 +345,7 @@ function chatWindow() {
     renderMessages();
 
     try {
-      const res = await fetch("http://localhost:5174/api/chat", {
+      const res = await fetch("{{ SERVER_URL }}/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -356,12 +356,23 @@ function chatWindow() {
         }),
       });
       if (res.status === 200) {
-        messages = await res.json();
-        renderMessages();
+        messages = await res.jso();
       } else {
-        console.error("Failed to send message", res, await res.text());
+        const text = await res.text();
+        console.error("Failed to send message", res, text);
+        messages.push({
+          content: `⚠️ Woops, something went wrong ⚠️\n\n\`\`\`\n${res.status} ${res.statusText}\n${text}\n\`\`\``,
+          role: "assistant",
+        });
       }
+    } catch (err) {
+      console.error("Failed to send message", err);
+      messages.push({
+        content: `⚠️ Woops, something went wrong ⚠️\n\n\`\`\`\n${err}\n\`\`\``,
+        role: "assistant",
+      });
     } finally {
+      renderMessages();
       inputDiv.removeAttribute("disabled");
       textarea.removeAttribute("disabled");
       sendButton.removeAttribute("disabled");
@@ -376,7 +387,7 @@ function chatWindow() {
       Powered by
       <a class="chat-link" href="${vitepressKnowledgeUrl}" target="_blank">vitepress-knowledge</a>
       &bull;
-      <a class="chat-link" href="https://{{ DOMAIN }}/privacy-policy" target="_blank">Privacy Policy</a>
+      <a class="chat-link" href="{{ SERVER_URL }}/privacy-policy" target="_blank">Privacy Policy</a>
     </small>
     <div class="chat-message assistant">
       {{ WELCOME_MESSAGE }}

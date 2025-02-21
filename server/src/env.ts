@@ -13,7 +13,7 @@ export const CLAUDE_3_5_HAIKU = process.env.CLAUDE_3_5_HAIKU === "true";
 
 export const PORT = Number(process.env.PORT) || 5174;
 export const APP_NAME = process.env.APP_NAME?.trim() || "<APP_NAME>";
-export const DOMAIN = process.env.DOMAIN?.trim() || "<DOMAIN>";
+export const SERVER_URL = process.env.SERVER_URL?.trim() || "<SERVER_URL>";
 export const DOCS_URL = (process.env.DOCS_URL || "http://localhost:5173")
   // Remove trailing /
   .replace(/\/$/, "");
