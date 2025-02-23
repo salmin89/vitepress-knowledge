@@ -277,9 +277,11 @@ consola.info(
 consola.info(
   `  ${pc.dim("WELCOME_MESSAGE=")}${pc.cyan(env.WELCOME_MESSAGE.replaceAll("\n", "\\n").slice(0, 70) + "...")}`,
 );
+console.debug(env.WELCOME_MESSAGE);
 consola.info(
   `  ${pc.dim("SYSTEM_PROMPT=")}${pc.cyan(env.SYSTEM_PROMPT.replaceAll("\n", "\\n").slice(0, 70) + "...")}`,
 );
+console.debug(env.SYSTEM_PROMPT);
 
 consola.info("AI Models");
 aiModels.forEach((model, i) => {
