@@ -343,10 +343,10 @@ function chatWindow() {
     const newMessage = { role: "user", content };
     messages.push(newMessage);
     renderMessages();
-    updateQueryParam(text);
+    updateQueryParam();
 
     try {
-      const res = await fetch("{{ SERVER_URL }}/api/chat", {
+      const res = await fetch("https://knowledge.wxt.dev/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -374,6 +374,7 @@ function chatWindow() {
       });
     } finally {
       renderMessages();
+      updateQueryParam();
       inputDiv.removeAttribute("disabled");
       textarea.removeAttribute("disabled");
       sendButton.removeAttribute("disabled");
@@ -388,7 +389,7 @@ function chatWindow() {
       Powered by
       <a class="chat-link" href="${vitepressKnowledgeUrl}" target="_blank">vitepress-knowledge</a>
       &bull;
-      <a class="chat-link" href="{{ SERVER_URL }}/privacy-policy" target="_blank">Privacy Policy</a>
+      <a class="chat-link" href="https://knowledge.wxt.dev/privacy-policy" target="_blank">Privacy Policy</a>
     </small>
     <div class="chat-message assistant">
       {{ WELCOME_MESSAGE }}
@@ -411,9 +412,9 @@ function chatWindow() {
     }
   };
 
-  const updateQueryParam = (text) => {
+  const updateQueryParam = () => {
     const url = new URL(location);
-    url.searchParams.set("q", text);
+    url.searchParams.set("q", JSON.stringify(messages));
     history.pushState({}, "", url);
   }
 
@@ -440,17 +441,20 @@ function chatWindow() {
   overlay.append(chatWindow);
   setTimeout(() => textarea.focus());
 
-  return {overlay, textarea, sendMessage};
+  return {overlay, renderMessages, messages};
 }
 
 document.body.append(askAiButton());
 
-
 const initialQuestion = new URLSearchParams(window.location.search).get('q');
 if (initialQuestion) {
-  const {overlay, sendMessage} = chatWindow();
+  const {overlay, renderMessages, messages} = chatWindow();
   document.body.append(overlay);
   document.body.style.overflow = "hidden";
 
-  sendMessage(initialQuestion);
+  try {
+    JSON.parse(initialQuestion).forEach((message) => messages.push(message));
+    renderMessages();
+
+  } catch (error) {}
 }
