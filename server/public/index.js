@@ -343,8 +343,8 @@ function chatWindow() {
     const newMessage = { role: "user", content };
     messages.push(newMessage);
     renderMessages();
-    updateQueryParam();
-    
+    updateQueryParam(text);
+
     try {
       const res = await fetch("{{ SERVER_URL }}/api/chat", {
         method: "POST",
@@ -411,9 +411,9 @@ function chatWindow() {
     }
   };
 
-  const updateQueryParam = () => {
+  const updateQueryParam = (text) => {
     const url = new URL(location);
-    url.searchParams.set("q", "do");
+    url.searchParams.set("q", text);
     history.pushState({}, "", url);
   }
 
