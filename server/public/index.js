@@ -331,8 +331,8 @@ function chatWindow() {
   titleDiv.append(titleIcon, titleSpan, closeButton);
 
   let messages = [];
-  const sendMessage = async (text) => {
-    const content = text.trim();
+  const sendMessage = async () => {
+    const content = textarea.value.trim();
     if (!content) return;
 
     textarea.value = "";
@@ -426,14 +426,14 @@ function chatWindow() {
   textarea.onkeydown = (event) => {
     if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
       event.preventDefault();
-      sendMessage(textarea.value);
+      sendMessage();
     }
   };
   const sendButton = document.createElement("button");
   sendButton.classList.add("chat-btn");
   sendButton.append(paperAirplaneSvg());
   sendButton.onclick = () => {
-    sendMessage(textarea.value);
+    sendMessage();
   };
   inputDiv.append(textarea, sendButton);
 
