@@ -346,7 +346,7 @@ function chatWindow() {
     updateQueryParam();
 
     try {
-      const res = await fetch("https://knowledge.wxt.dev/api/chat", {
+      const res = await fetch("{{ SERVER_URL }}/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -389,7 +389,7 @@ function chatWindow() {
       Powered by
       <a class="chat-link" href="${vitepressKnowledgeUrl}" target="_blank">vitepress-knowledge</a>
       &bull;
-      <a class="chat-link" href="https://knowledge.wxt.dev/privacy-policy" target="_blank">Privacy Policy</a>
+      <a class="chat-link" href="{{ SERVER_URL }}/privacy-policy" target="_blank">Privacy Policy</a>
     </small>
     <div class="chat-message assistant">
       {{ WELCOME_MESSAGE }}
