@@ -292,7 +292,7 @@ const askAiButton = () => {
   button.append(lightingSvg(), text);
 
   button.onclick = () => {
-    document.body.append(chatWindow());
+    document.body.append(chatWindow().overlay);
     document.body.style.overflow = "hidden";
   };
 
@@ -331,8 +331,8 @@ function chatWindow() {
   titleDiv.append(titleIcon, titleSpan, closeButton);
 
   let messages = [];
-  const sendMessage = async () => {
-    const content = textarea.value.trim();
+  const sendMessage = async (text) => {
+    const content = text.trim();
     if (!content) return;
 
     textarea.value = "";
@@ -343,9 +343,10 @@ function chatWindow() {
     const newMessage = { role: "user", content };
     messages.push(newMessage);
     renderMessages();
+    updateQueryParam();
 
     try {
-      const res = await fetch("{{ SERVER_URL }}/api/chat", {
+      const res = await fetch("https://knowledge.wxt.dev/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -373,6 +374,7 @@ function chatWindow() {
       });
     } finally {
       renderMessages();
+      updateQueryParam();
       inputDiv.removeAttribute("disabled");
       textarea.removeAttribute("disabled");
       sendButton.removeAttribute("disabled");
@@ -387,7 +389,7 @@ function chatWindow() {
       Powered by
       <a class="chat-link" href="${vitepressKnowledgeUrl}" target="_blank">vitepress-knowledge</a>
       &bull;
-      <a class="chat-link" href="{{ SERVER_URL }}/privacy-policy" target="_blank">Privacy Policy</a>
+      <a class="chat-link" href="https://knowledge.wxt.dev/privacy-policy" target="_blank">Privacy Policy</a>
     </small>
     <div class="chat-message assistant">
       {{ WELCOME_MESSAGE }}
@@ -410,6 +412,12 @@ function chatWindow() {
     }
   };
 
+  const updateQueryParam = () => {
+    const url = new URL(location);
+    url.searchParams.set("q", JSON.stringify(messages));
+    history.pushState({}, "", url);
+  }
+
   const inputDiv = document.createElement("div");
   inputDiv.classList.add("chat-window-input-section");
 
@@ -418,14 +426,14 @@ function chatWindow() {
   textarea.onkeydown = (event) => {
     if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
       event.preventDefault();
-      sendMessage();
+      sendMessage(textarea.value);
     }
   };
   const sendButton = document.createElement("button");
   sendButton.classList.add("chat-btn");
   sendButton.append(paperAirplaneSvg());
   sendButton.onclick = () => {
-    sendMessage();
+    sendMessage(textarea.value);
   };
   inputDiv.append(textarea, sendButton);
 
@@ -433,7 +441,20 @@ function chatWindow() {
   overlay.append(chatWindow);
   setTimeout(() => textarea.focus());
 
-  return overlay;
+  return {overlay, renderMessages, messages};
 }
 
 document.body.append(askAiButton());
+
+const initialQuestion = new URLSearchParams(window.location.search).get('q');
+if (initialQuestion) {
+  const {overlay, renderMessages, messages} = chatWindow();
+  document.body.append(overlay);
+  document.body.style.overflow = "hidden";
+
+  try {
+    JSON.parse(initialQuestion).forEach((message) => messages.push(message));
+    renderMessages();
+
+  } catch (error) {}
+}
