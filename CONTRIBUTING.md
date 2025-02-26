@@ -18,6 +18,13 @@ bun dev
 
 Click the "Ask AI" button in the bottom right corner, and you should be able to chat with the AI!
 
+> During development, there are 3 servers running:
+> 1. http://localhost:5173 - The VitePress website
+> 2. http://localhost:3000 - The Chat UI (with proxy to chat API)
+> 3. http://localhost:3001 - The Chat API
+>
+> Most of the time, you can validate your changes against the VitePress site or chat UI.
+
 ## Project Structure
 
 Two main folders and a few subdirecties of note:
@@ -36,7 +43,7 @@ The backend is responsible for hosting the chat UI code and any APIs it requires
 
 - The chat window styles don't effect the documentation's styles.
 - The JS for the button and overlay is tiny, and loads instantly
-- The chat can be accessed from both the vitepress site (as modal) and the website (as a full size website), both sharing conversation history.
+- The chat can be accessed from both the VitePress site (as modal) and the website (as a full size website), both sharing conversation history.
 - Easier to build
 
 Downsides to this approach are:
