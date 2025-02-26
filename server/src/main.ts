@@ -107,7 +107,7 @@ let app = new Elysia()
   .get("/privacy-policy", async () => await privacyPolicy, {
     detail: {
       description: [
-        "The server hosts a copy of \`vitepress-knowledge\`'s privacy policy at this endpoint.",
+        "The server hosts a copy of `vitepress-knowledge`'s privacy policy at this endpoint.",
       ].join("\n"),
     },
     response: {
@@ -163,7 +163,7 @@ let app = new Elysia()
       if (!auth.secret)
         return error(
           400,
-          `Auth not provided for service "${auth.enum}". Did you forget to set the \"${auth.env}\" environment variable?`,
+          `Auth not provided for service "${auth.enum}". Did you forget to set the "${auth.env}" environment variable?`,
         );
 
       const knowledge = await getKnowledgeFiles(env.DOCS_URL);
