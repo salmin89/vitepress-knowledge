@@ -15,6 +15,7 @@ import { consola } from "consola";
 import { getKnowledgeFiles } from "./knowledge-files";
 import cors from "@elysiajs/cors";
 import * as env from "./env";
+import { fetchStatic } from "@aklinker1/aframe/server";
 
 consola.info("Starting server...");
 
@@ -261,7 +262,8 @@ let app = new Elysia()
         400: t.String({ description: "Error message." }),
       },
     },
-  );
+  )
+  .mount(fetchStatic);
 
 consola.info("Resolved Environment Variables");
 consola.info(`  ${pc.dim("PORT=")}${pc.cyan(env.PORT)}`);
@@ -304,9 +306,4 @@ if (noModels) consola.error("You must enable at least one AI model.");
 if (noAuth) consola.error("You must provide auth for at least one service.");
 if (noModels || noAuth) process.exit(1);
 
-const url = `http://localhost:${env.PORT}`;
-const openApiUrl = `${url}/swagger`;
-consola.info(`${pc.dim("Server started @")} ${pc.underline(url)}`);
-consola.info(`${pc.dim("OpenAPI docs   @")} ${pc.underline(openApiUrl)}`);
-
-app.listen(env.PORT);
+export default app;
