@@ -292,7 +292,7 @@ const askAiButton = () => {
   button.append(lightingSvg(), text);
 
   button.onclick = () => {
-    document.body.append(chatWindow());
+    document.body.append(chatWindow().overlay);
     document.body.style.overflow = "hidden";
   };
 
@@ -343,6 +343,7 @@ function chatWindow() {
     const newMessage = { role: "user", content };
     messages.push(newMessage);
     renderMessages();
+    updateQueryParam();
 
     try {
       const res = await fetch("{{ SERVER_URL }}/api/chat", {
@@ -373,6 +374,7 @@ function chatWindow() {
       });
     } finally {
       renderMessages();
+      updateQueryParam();
       inputDiv.removeAttribute("disabled");
       textarea.removeAttribute("disabled");
       sendButton.removeAttribute("disabled");
@@ -410,6 +412,12 @@ function chatWindow() {
     }
   };
 
+  const updateQueryParam = () => {
+    const url = new URL(location);
+    url.searchParams.set("q", JSON.stringify(messages));
+    history.pushState({}, "", url);
+  }
+
   const inputDiv = document.createElement("div");
   inputDiv.classList.add("chat-window-input-section");
 
@@ -433,7 +441,20 @@ function chatWindow() {
   overlay.append(chatWindow);
   setTimeout(() => textarea.focus());
 
-  return overlay;
+  return {overlay, renderMessages, messages};
 }
 
 document.body.append(askAiButton());
+
+const initialQuestion = new URLSearchParams(window.location.search).get('q');
+if (initialQuestion) {
+  const {overlay, renderMessages, messages} = chatWindow();
+  document.body.append(overlay);
+  document.body.style.overflow = "hidden";
+
+  try {
+    JSON.parse(initialQuestion).forEach((message) => messages.push(message));
+    renderMessages();
+
+  } catch (error) {}
+}
