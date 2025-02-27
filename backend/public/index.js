@@ -272,10 +272,30 @@ document.head.append(styles);
 
 const vitepressKnowledgeUrl = `https://github.com/aklinker1/vitepress-knowledge?ref=${location.hostname}-chat-window`;
 
+// callback
+let onLinkClicked = () => {};
+
+// Create a Showdown extension
+const linkBehaviorExtension = {
+  type: "output",
+  filter: function (html) {
+    // Use regex to find all links and modify them
+    const modifiedHtml = html.replace(
+      /<a\s+href="([^"]+)"([^>]*)>/g,
+      function (match, url, attrs) {
+        // Add your custom attributes or event handlers here
+        return `<a href="${url}" onclick="onLinkClicked()" ${attrs}>`;
+      }
+    );
+
+    return modifiedHtml;
+  },
+};
+
 let _mdToHtml;
 const getMdToHtml = () => {
   if (!_mdToHtml) {
-    const converter = new showdown.Converter();
+    const converter = new showdown.Converter({extensions: [linkBehaviorExtension]});
     _mdToHtml = converter.makeHtml.bind(converter);
   }
 
@@ -492,7 +512,7 @@ function chatWindow() {
   overlay.append(chatWindow);
   setTimeout(() => textarea.focus());
 
-  return { overlay, renderMessages, messages };
+  return { overlay, renderMessages, messages, closeChatWindow };
 }
 
 document.body.append(askAiButton());
@@ -507,7 +527,9 @@ document.body.append(askAiButton());
     const initialMessages = JSON.parse(initialQuestion);
     if (!initialMessages.length) return;
 
-    const { overlay, renderMessages, messages } = chatWindow();
+    const { overlay, renderMessages, messages, closeChatWindow } = chatWindow();
+    onLinkClicked = closeChatWindow;
+
     document.body.append(overlay);
     document.body.style.overflow = "hidden";
 
