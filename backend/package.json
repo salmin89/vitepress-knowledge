@@ -13,19 +13,33 @@
     "docker:push": "docker tag vitepress-knowledge-server aklinker1/vitepress-knowledge-server && docker push aklinker1/vitepress-knowledge-server"
   },
   "dependencies": {
-    "@aklinker1/aframe": "^0.2.5",
+    "@aklinker1/aframe": "^0.3.0",
+    "@egoist/tailwindcss-icons": "^1.9.0",
     "@elysiajs/cors": "^1.2.0",
+    "@elysiajs/eden": "^1.2.0",
     "@elysiajs/swagger": "^1.2.0",
+    "@iconify-json/heroicons": "^1.2.2",
+    "@iconify-json/svg-spinners": "^1.2.2",
+    "@vueuse/core": "^12.7.0",
     "async-mutex": "^0.5.0",
     "consola": "^3.4.0",
     "elysia": "^1.2.13",
-    "picocolors": "^1.1.1"
+    "picocolors": "^1.1.1",
+    "showdown": "^2.1.0",
+    "tailwindcss": "^4.0.9",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@prerenderer/prerenderer": "^1.2.5",
     "@prerenderer/renderer-puppeteer": "^1.2.4",
+    "@tailwindcss/typography": "^0.5.16",
+    "@tailwindcss/vite": "^4.0.9",
+    "@types/showdown": "^2.0.6",
+    "@vitejs/plugin-vue": "^5.2.1",
     "puppeteer": "^24.3.0",
+    "typescript": "^5.7.3",
     "vite": "^6.2.0",
-    "typescript": "^5.7.3"
+    "vue-tsc": "^2.2.4"
   }
 }

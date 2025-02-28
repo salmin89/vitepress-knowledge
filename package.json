@@ -14,6 +14,7 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
+  "dependencies": {},
   "devDependencies": {
     "@aklinker1/check": "^1.4.5",
     "@types/bun": "latest",

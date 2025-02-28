@@ -15,8 +15,8 @@ import {
   SERVICE_AUTH_ENV_COLUMN_WIDTH,
   SERVICE_AUTH_NAME_COLUMN_WIDTH,
 } from "./utils/constants";
-import * as env from "./utils/env";
-import { indexRoute } from "./routes";
+import env from "./utils/env";
+import { applyAppTemplateVars } from "./utils/template-vars";
 
 consola.info("Starting server...");
 
@@ -24,15 +24,32 @@ const app = new Elysia()
   .use(requestLogger)
   .use(swaggerRoute)
   .use(applyCors)
-  .use(indexRoute)
   .use(askAiRoute)
   .use(privacyPolicyRoute)
   .use(apiRoute)
-  .mount(fetchStatic);
+  .mount(
+    fetchStatic({
+      // Apply template vars to HTML files
+      onFetch: async (path, file) => {
+        if (path.includes(".html")) {
+          const html = applyAppTemplateVars(await file.text());
+          return new Response(html, {
+            headers: {
+              "content-type": file.type,
+            },
+          });
+        }
+      },
+    }),
+  );
 
 consola.info("Resolved Environment Variables");
 consola.info(`  ${pc.dim("PORT=")}${pc.cyan(env.PORT)}`);
 consola.info(`  ${pc.dim("APP_NAME=")}${pc.cyan(env.APP_NAME)}`);
+consola.info(`  ${pc.dim("BRAND_COLOR=")}${pc.cyan(env.BRAND_COLOR)}`);
+consola.info(
+  `  ${pc.dim("BRAND_CONTENT_COLOR=")}${pc.cyan(env.BRAND_CONTENT_COLOR)}`,
+);
 consola.info(`  ${pc.dim("SERVER_URL=")}${pc.cyan(env.SERVER_URL)}`);
 consola.info(`  ${pc.dim("DOCS_URL=")}${pc.cyan(env.DOCS_URL)}`);
 consola.info(
@@ -72,3 +89,5 @@ if (noAuth) consola.error("You must provide auth for at least one service.");
 if (noModels || noAuth) process.exit(1);
 
 export default app;
+
+export type app = typeof app;
