@@ -7,7 +7,7 @@ The server hosts a copy of \`vitepress-knowledge\`'s privacy policy at this endp
 
 export const privacyPolicyRoute = new Elysia().get(
   "/privacy-policy",
-  privacyPolicy,
+  () => privacyPolicy,
   {
     detail: { description },
     response: {
