@@ -8,6 +8,10 @@ export function mdToHtml(md: string): string {
   return converter.makeHtml(md);
 }
 
+/**
+ * Add a base URL to the docs if anchors are absolute paths.
+ * "/" -> "https://wxt.dev/"
+ */
 function linkBaseUrl(): ShowdownExtension {
   return {
     type: "output",
