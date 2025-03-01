@@ -1,5 +1,4 @@
 import { Elysia, t } from "elysia";
-import env from "../utils/env";
 import askAiJsTemplate from "../assets/ask-ai.js" with { type: "text" };
 import { applyAppTemplateVars } from "../utils/template-vars.js";
 

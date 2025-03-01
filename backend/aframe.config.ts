@@ -13,7 +13,7 @@ function applyTemplateVars(): Plugin {
       mode = config.mode;
     },
     async transformIndexHtml(html) {
-      const env = loadEnv(mode, process.cwd(), "");
+      loadEnv(mode, process.cwd(), "");
       const { applyAppTemplateVars } = await import(
         "./server/utils/template-vars"
       );
