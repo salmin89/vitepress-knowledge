@@ -14,7 +14,11 @@ const close = () => {
 };
 
 const { copy: copyUrl, copied: isUrlCopied } = useClipboard({
-  source: () => location.href,
+  source: () => {
+    const currentURL = new URL(DOCS_URL)
+    currentURL.search = location.search
+    return currentURL.toString()
+  },
 });
 
 const route = useRoute();
