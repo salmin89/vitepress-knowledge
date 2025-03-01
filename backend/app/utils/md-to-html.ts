@@ -1,5 +1,4 @@
 import { Converter, type ShowdownExtension } from "showdown";
-import { isIframe } from "./is-iframe";
 
 const converter = new Converter({
   extensions: [linkBaseUrl(), linkTarget()],
@@ -22,12 +21,14 @@ function linkBaseUrl(): ShowdownExtension {
 }
 
 /**
- * Adds the proper target to links.
+ * Always open markdown links in new tabs. For now, this is done to preserve the
+ * conversation in the open tab, which would otherwise be cleared when
+ * changing URLs.
  */
 function linkTarget(): ShowdownExtension {
   return {
     type: "output",
     regex: /<a /g,
-    replace: `<a target="${isIframe ? "_parent" : "_blank"}" `,
+    replace: `<a target="_blank" `,
   };
 }
