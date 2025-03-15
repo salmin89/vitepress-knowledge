@@ -4,13 +4,14 @@ import env from "../../utils/env";
 import { models } from "../../plugins/models";
 import { decorateContext } from "../../plugins/decorate-context";
 import { applySystemPromptTemplateVars } from "../../utils/template-vars";
+import { Conversation, PostChatRequestBody } from "../../../shared/types";
 
 export const postChatRoute = new Elysia()
   .use(models)
   .use(decorateContext)
   .post(
     "/chat",
-    async ({ body, error, aiService }) => {
+    async ({ body, error, aiService, conversationService }) => {
       const model = aiService.models.find((m) => m.enum === body.model);
       if (!model) {
         return error(400, "Model not found or not enabled");
@@ -27,16 +28,20 @@ export const postChatRoute = new Elysia()
         },
         { messages: body.messages },
       );
-      return [...body.messages, response];
+
+      return await conversationService.updateConversation({
+        id: body.conversationId,
+        messages: [...body.messages, response],
+      });
     },
     {
       detail: {
         description:
           "Send messages to an AI model and return with the response.",
       },
-      body: "PostChatRequestBody",
+      body: PostChatRequestBody,
       response: {
-        200: "ChatMessage[]",
+        200: Conversation,
         400: t.String({ description: "Error message." }),
       },
     },
